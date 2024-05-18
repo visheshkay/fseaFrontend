@@ -14,6 +14,7 @@ import TableReview from './components/TableReview/TableReview';
 import TableSDP from './components/TableSDP/TableSDP';
 import UploadRev from './components/UploadRev/UploadRev';
 import UploadSDP from './components/UploadSDP/UploadSDP';
+import ManagePassword from './components/ManagePassword/ManagePassword';
 function App() {
   let router = createBrowserRouter([
     {
@@ -42,7 +43,13 @@ function App() {
               },
               {
                 path:'profile',
-                element:<Profile/> //mainly for change password (something like setting)
+                element:<Profile/>, //mainly for change password (something like setting)
+                children:[
+                  {
+                  path:'manage-password',
+                  element:<ManagePassword/>
+                  }
+                ]
               },
               {
                 path: 'upload-new-sdp',
@@ -76,6 +83,16 @@ function App() {
                 {
                   path:'all-faculty',
                   element:<AllFaculty/>
+                },
+                {
+                  path:'profile',
+                  element:<Profile/>, //mainly for change password (something like setting)
+                  children:[
+                    {
+                    path:'manage-password',
+                    element:<ManagePassword/>
+                    }
+                  ]
                 },
                 {
                   path:'view-all-sdp',
