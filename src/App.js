@@ -19,13 +19,13 @@ function App() {
   let router = createBrowserRouter([
     {
       path:'',
-      // element:<RootLayout/>,
+      element:<RootLayout/>,
       // errorElement:<ErrorElement/>,
       children:[
-          {
-          path:'',
-          element:<RootLayout/>//after login is done remove home, if user is already  logged in goto Dashboard/view all faculty or else goto login
-          },
+          // {
+          // path:'',
+          // element:<RootLayout/>//after login is done remove home, if user is already  logged in goto Dashboard/view all faculty or else goto login
+          // },
           {
             path:'login',
             element:<Login/>
