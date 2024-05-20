@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
+
 :root{
   --light-grey:#f1f2f3;
   --medium-grey:#d3d1d1;
@@ -7,7 +8,7 @@
   --crimson:#dc143c;
   --light-olive:#bcb88a;
   --dark-green:#556b2f;
-  --main-yellow:#e5c54f;
+  --main-yellow:inear-gradient(to right, red, yellow);
   --light-green:#badf68;
   --light-red:#ff8484;
 }
