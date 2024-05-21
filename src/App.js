@@ -43,13 +43,11 @@ function App() {
               },
               {
                 path:'profile',
-                element:<Profile/>, //mainly for change password (something like setting)
-                children:[
-                  {
-                  path:'manage-password',
-                  element:<ManagePassword/>
-                  }
-                ]
+                element:<Profile/> //mainly for change password (something like setting)
+              },
+              {
+                path:'profile/manage-password',
+                element:<ManagePassword/>
               },
               {
                 path: 'upload-new-sdp',
@@ -86,13 +84,11 @@ function App() {
                 },
                 {
                   path:'profile',
-                  element:<Profile/>, //mainly for change password (something like setting)
-                  children:[
-                    {
-                    path:'manage-password',
-                    element:<ManagePassword/>
-                    }
-                  ]
+                  element:<Profile/> //mainly for change password (something like setting)
+                },
+                {
+                  path:'profile/manage-password',
+                  element:<ManagePassword/>
                 },
                 {
                   path:'view-all-sdp',

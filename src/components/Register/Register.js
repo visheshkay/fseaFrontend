@@ -34,7 +34,7 @@ function Register() {
         <div className="signupmain mt-5 w-70 mx-auto">
     
     <form className=" mx-auto p-4 pt-3 bg-light formmain rounded" onSubmit={handleSubmit(registerUser)}>
-    <div className="facid mb-2">
+    <div className="facid mb-4">
             
             <input type="text" id="facid" className="form-control w-50 mx-auto m-3" placeholder="FacultyId" {...register("facultyId",{required:true,minLength:4,maxLength:10})}/>
             {errors.facultyid && errors.facultyid.type==="required" &&
