@@ -99,7 +99,7 @@ function ManagePassword() {
                 </div>
                 <div className="mx-auto">
                 <button type='submit' className='btn submit-manage-button mx-auto m-3 d-block'>
-                Change Password
+                Update
                 </button>
                 </div>
             </form>
