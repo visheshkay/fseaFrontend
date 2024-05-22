@@ -52,7 +52,11 @@ function AllFaculty() {
                 <div className="input-group-append">
                     <button className="btn but" type="button" onClick={handleSearch}>Search</button>
                 </div>
-            </div>
+            </div>{
+            (filteredFac.length==0)?
+                <div className="mx-auto">
+                    <h3 className="text-danger text-center">No Results</h3>
+                </div>:
             <div className="row gy-5 gx-3 allarticles">
                 {filteredFac.map((faculty) => (
                     <div key={faculty.facultyId} className="col-sm-12 col-md-4 col-lg-4 mb-2">
@@ -60,6 +64,7 @@ function AllFaculty() {
                     </div>
                 ))}
             </div>
+}
         </div>
     );
 }
