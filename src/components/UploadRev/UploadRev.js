@@ -75,7 +75,7 @@ function UploadRev() {
                         <div className="w-100 text-start p-2">
                             <label>Role:</label>
                             <div className="role-options">
-                                {['Reviewer', 'EditorialBoardMember', 'SessionChair', 'CommitteeMember', 'Jury'].map((role) => (
+                                {['Reviewer', 'Editorial Board Member', 'Session Chair', 'Committee Member', 'Jury'].map((role) => (
                                     <div key={role} className="form-check">
                                         <input
                                             type="checkbox"

@@ -24,7 +24,7 @@ function RootLayout() {
       }
 useEffect(()=>{
     if(loginUserStatus===false){
-        navigate('/new-user')
+        navigate('/login')
     }
     else{
         if(currentUser.userType=='faculty'){
