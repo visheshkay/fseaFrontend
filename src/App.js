@@ -15,12 +15,13 @@ import TableSDP from './components/TableSDP/TableSDP';
 import UploadRev from './components/UploadRev/UploadRev';
 import UploadSDP from './components/UploadSDP/UploadSDP';
 import ManagePassword from './components/ManagePassword/ManagePassword';
+import ErrorPage from './components/ErrorPage/ErrorPage';
 function App() {
   let router = createBrowserRouter([
     {
       path:'',
       element:<RootLayout/>,
-      // errorElement:<ErrorElement/>,
+      errorElement:<ErrorPage/>,
       children:[
           // {
           // path:'',

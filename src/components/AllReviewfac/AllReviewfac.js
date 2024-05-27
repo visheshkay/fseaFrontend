@@ -6,12 +6,17 @@ import ReviewCard from '../ReviewCard/ReviewCard';
 import './AllReviewfac.css';
 
 function AllReviewfac() {
+    const token = localStorage.getItem('token');
     const { currentUser } = useSelector(state => state.facultyAdminLoginReducer);
+    let [loading , setLoading] = useState(true);
     const [rev, setREV] = useState([]);
     const [filteredREV, setFilteredREV] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [facId, setFacId] = useState('');
     const { state } = useLocation();
+    const axiosWithToken = axios.create({
+        headers:{Authorization:`Bearer ${token}`}
+    })
 
     useEffect(() => {
         const getfid = () => {
@@ -28,8 +33,10 @@ function AllReviewfac() {
         const getREV = async () => {
             if (facId) {
                 try {
-                    const res = await axios.get(`http://localhost:4000/admin-api/get-review-records/${facId}`);
+                    setLoading(true);
+                    const res = await axiosWithToken.get(`http://localhost:4000/admin-api/get-review-records/${facId}`);
                     setREV(res.data.payload);
+                    setLoading(false);
                 } catch (error) {
                     console.error('Error fetching review records:', error);
                 }
@@ -71,6 +78,7 @@ function AllReviewfac() {
                 </div>
             </div>
             {
+                (loading==true)?<div className="loading-screen text-center fs-3 mt-5">Loading...</div>:
                 (filteredREV.length==0)?
                 <div className="mx-auto">
                     <h3 className="text-danger text-center">No Results</h3>

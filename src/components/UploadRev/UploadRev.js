@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import {useNavigate} from 'react-router-dom'
 import './UploadRev.css';
 
 function UploadRev() {
+    const token = localStorage.getItem('token');
+    const axiosWithToken = axios.create({
+        headers:{Authorization:`Bearer ${token}`}
+    })
+    let navigate = useNavigate();
     let {currentUser} = useSelector(state=>state.facultyAdminLoginReducer)
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [roles, setRoles] = useState([]);
@@ -21,6 +27,7 @@ function UploadRev() {
         data.dateOfModification = new Date();
         data.facultyId = currentUser.facultyId;
         data.revId = Date.now();
+        data.roles = roles;
         // console.log(data);
 
         // Handle file upload
@@ -29,7 +36,7 @@ function UploadRev() {
         formData.append('file', fileInput.files[0], `rev-${data.revId}.jpeg`);
 
         try {
-            const fileUploadRes = await axios.post('http://localhost:4000/file-api/upload-certificate', formData, {
+            const fileUploadRes = await axiosWithToken.post('http://localhost:4000/file-api/upload-certificate', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -38,9 +45,11 @@ function UploadRev() {
             if (fileUploadRes.data.file) {
                 // console.log('File uploaded successfully:', fileUploadRes.data.file);
                 // Proceed with the rest of the form data submission
-                let res = await axios.post('http://localhost:4000/faculty-api/reviewdata', data);
+                let res = await axiosWithToken.post('http://localhost:4000/faculty-api/reviewdata', data);
                 if (res.data === 'Data Uploaded') {
                     alert('Upload Successful!');
+                    navigate('/faculty')
+
                 } else {
                     alert(res.data.message);
                 }

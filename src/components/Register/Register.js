@@ -9,6 +9,10 @@ import { useState } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import './Register.css'
 function Register() {
+    const token = localStorage.getItem('token');
+    const axiosWithToken = axios.create({
+        headers:{Authorization:`Bearer ${token}`}
+    })
     let {register,handleSubmit,formState:{errors}}=useForm();
     let [err,setErr] = useState("")
     const [showPassword, setShowPassword] = useState(false);
@@ -20,7 +24,7 @@ function Register() {
         user.userType='faculty'
         console.log(user)
         let res;
-         res = await axios.post('http://localhost:4000/faculty-api/new-faculty',user)
+         res = await axiosWithToken.post('http://localhost:4000/faculty-api/new-faculty',user)
         console.log(res.data)
         if(res.data.message==='Faculty created'){
             navigate('/login')

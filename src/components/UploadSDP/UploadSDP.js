@@ -2,8 +2,14 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import './UploadSDP.css';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 function UploadSDP() {
+    const token = localStorage.getItem('token');
+    const axiosWithToken = axios.create({
+        headers:{Authorization:`Bearer ${token}`}
+    })
+    let navigate = useNavigate();
     let {currentUser} = useSelector(state=>state.facultyAdminLoginReducer)
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -20,7 +26,7 @@ function UploadSDP() {
         formData.append('file', fileInput.files[0], `sdp-${data.sdpId}.jpeg`);
 
         try {
-            const fileUploadRes = await axios.post('http://localhost:4000/file-api/upload-certificate', formData, {
+            const fileUploadRes = await axiosWithToken.post('http://localhost:4000/file-api/upload-certificate', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -29,9 +35,10 @@ function UploadSDP() {
             if (fileUploadRes.data.file) {
                 // console.log('File uploaded successfully:', fileUploadRes.data.file);
                 // Proceed with the rest of the form data submission
-                let res = await axios.post('http://localhost:4000/faculty-api/sdpdata', data);
+                let res = await axiosWithToken.post('http://localhost:4000/faculty-api/sdpdata', data);
                 if (res.data === 'Data Uploaded') {
                     alert('Upload Successful!');
+                    navigate('/faculty')
                 } else {
                     alert(res.data.message);
                 }

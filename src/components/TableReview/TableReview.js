@@ -5,6 +5,10 @@ import { FaArrowUp, FaArrowDown, FaDownload, FaFilter, FaTimes } from 'react-ico
 import './TableReview.css';
 
 function TableReview() {
+    const token = localStorage.getItem('token');
+    const axiosWithToken = axios.create({
+        headers:{Authorization:`Bearer ${token}`}
+    })
     const [allREV, setAllREV] = useState([]);
     const [facultyData, setFacultyData] = useState({});
     const [errFetch, setErrF] = useState('');
@@ -29,7 +33,7 @@ function TableReview() {
 
     async function getAllREV() {
         try {
-            let res = await axios.get('http://localhost:4000/admin-api/get-review-records');
+            let res = await axiosWithToken.get('http://localhost:4000/admin-api/get-review-records');
             if (res.data.message === 'reviewers data Found') {
                 setAllREV(res.data.payload);
                 setErrF('');
@@ -43,7 +47,7 @@ function TableReview() {
 
     async function getFacultyData() {
         try {
-            let res = await axios.get('http://localhost:4000/admin-api/get-all-faculty-records');
+            let res = await axiosWithToken.get('http://localhost:4000/admin-api/get-all-faculty-records');
             if (res.data.message === 'all faculty data found') {
                 const facultyMap = res.data.payload.reduce((map, faculty) => {
                     map[faculty.facultyId] = faculty.username;

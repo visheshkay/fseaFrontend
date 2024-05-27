@@ -6,12 +6,17 @@ import SDPCard from '../SDPCard/SDPCard';
 import './AllSDPfac.css';
 
 function AllSDPfac() {
+    const token = localStorage.getItem('token');
     const { currentUser } = useSelector(state => state.facultyAdminLoginReducer);
     const [sdp, setSDP] = useState([]);
+    let [loading,setLoading] = useState(true);
     const [filteredSDP, setFilteredSDP] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [facId, setFacId] = useState('');
     const { state } = useLocation();
+    const axiosWithToken = axios.create({
+        headers:{Authorization:`Bearer ${token}`}
+    })
 
     useEffect(() => {
         const getfid = () => {
@@ -28,8 +33,10 @@ function AllSDPfac() {
         const getSDP = async () => {
             if (facId) {
                 try {
-                    const res = await axios.get(`http://localhost:4000/admin-api/get-sdp-records/${facId}`);
+                    setLoading(true);
+                    const res = await axiosWithToken.get(`http://localhost:4000/admin-api/get-sdp-records/${facId}`);
                     setSDP(res.data.payload);
+                    setLoading(false);
                 } catch (error) {
                     console.error('Error fetching sdp records:', error);
                 }
@@ -71,6 +78,7 @@ function AllSDPfac() {
                 </div>
             </div>
             {
+                (loading==true)?<div className="loading-screen text-center fs-3 mt-5">Loading...</div>:
                 (filteredSDP.length==0)?
                 <div className="mx-auto">
                     <h3 className="text-danger text-center">No Results</h3>

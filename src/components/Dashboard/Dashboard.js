@@ -7,6 +7,12 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 function Dashboard() {
+    const token = localStorage.getItem('token');
+    const axiosWithToken = axios.create({
+        headers:{Authorization:`Bearer ${token}`}
+    })
+    const [l1,setL1] = useState(true);
+    const [l2,setL2]=useState(true);
     const [sdp, setSDP] = useState([]);
     const [rev, setREV] = useState([]);
     const { currentUser } = useSelector(state => state.facultyAdminLoginReducer);
@@ -20,8 +26,10 @@ function Dashboard() {
     const getSDP = async () => {
         if (currentUser.facultyId) {
             try {
-                const res = await axios.get(`http://localhost:4000/admin-api/get-sdp-records/${currentUser.facultyId}`);
+                setL1(true)
+                const res = await axiosWithToken.get(`http://localhost:4000/admin-api/get-sdp-records/${currentUser.facultyId}`);
                 setSDP(res.data.payload);
+                setL1(false)
             } catch (error) {
                 console.error('Error fetching sdp records:', error);
             }
@@ -31,8 +39,10 @@ function Dashboard() {
     const getREV = async () => {
         if (currentUser.facultyId) {
             try {
-                const res = await axios.get(`http://localhost:4000/admin-api/get-review-records/${currentUser.facultyId}`);
+                setL2(true)
+                const res = await axiosWithToken.get(`http://localhost:4000/admin-api/get-review-records/${currentUser.facultyId}`);
                 setREV(res.data.payload);
+                setL2(false)
             } catch (error) {
                 console.error('Error fetching review records:', error);
             }
@@ -69,16 +79,16 @@ function Dashboard() {
                 </div>
                 <div className="col-sm-12 col-md-6 col-lg-6">
                     <div className="chart rounded shadow d-flex justify-content-center align-items-center pie">
-                        {(data.values[0]==0 && data.values[1]==0)? <p className="text-danger">No Records</p>: <PieChart data={data} />}
+                        {(l1==true && l2==true)?<div className="loading-screen text-center fs-3 mt-5">Loading...</div>:(data.values[0]==0 && data.values[1]==0)? <p className="text-danger">No Records</p>: <PieChart data={data} />}
                     </div>
                 </div>
                 <div className="col-sm-12 col-md-6 col-lg-6 ">
                     <h4>Latest SDP</h4>
-                    {latestSDP ? <SDPCard s={latestSDP} /> : <p className="text-danger">No SDP records available</p>}
+                    {(l1==true)?<div className="loading-screen text-center fs-3 mt-5">Loading...</div>:latestSDP ? <SDPCard s={latestSDP} /> : <p className="text-danger">No SDP records available</p>}
                 </div>
                 <div className="col-sm-12 col-md-6 col-lg-6">
                     <h4>Latest Review</h4>
-                    {latestReview ? <ReviewCard r={latestReview} /> : <p className="text-danger">No review records available</p>}
+                    {(l2==true)?<div className="loading-screen text-center fs-3 mt-5">Loading...</div>:latestReview ? <ReviewCard r={latestReview} /> : <p className="text-danger">No review records available</p>}
                 </div>
             </div>
         </div>

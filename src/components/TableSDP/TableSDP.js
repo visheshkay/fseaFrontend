@@ -5,6 +5,10 @@ import { FaArrowUp, FaArrowDown, FaCircle, FaDownload, FaFilter ,FaTimes} from '
 import './TableSDP.css';
 
 function TableSDP() {
+  const token = localStorage.getItem('token');
+  const axiosWithToken = axios.create({
+    headers:{Authorization:`Bearer ${token}`}
+})
   const [allSDP, setAllSDP] = useState([]);
   const [facultyData, setFacultyData] = useState({});
   const [errFetch, setErrF] = useState('');
@@ -29,7 +33,7 @@ function TableSDP() {
 
   async function getAllSDP() {
     try {
-      let res = await axios.get('http://localhost:4000/admin-api/get-sdp-records');
+      let res = await axiosWithToken.get('http://localhost:4000/admin-api/get-sdp-records');
       if (res.data.message === 'Records Found') {
         setAllSDP(res.data.payload);
         setErrF('');
@@ -43,7 +47,7 @@ function TableSDP() {
 
   async function getFacultyData() {
     try {
-      let res = await axios.get('http://localhost:4000/admin-api/get-all-faculty-records');
+      let res = await axiosWithToken.get('http://localhost:4000/admin-api/get-all-faculty-records');
       if (res.data.message === 'all faculty data found') {
         const facultyMap = res.data.payload.reduce((map, faculty) => {
           map[faculty.facultyId] = faculty.username;
