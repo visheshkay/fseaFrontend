@@ -126,6 +126,14 @@ function TableReview() {
         facultyName: facultyData[rev.facultyId] || 'Unknown',
     }));
 
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const year = String(date.getFullYear()); // Get last two digits of the year
+        return `${day}/${month}/${year}`;
+      }
+
     const generateCSV = () => {
         const headers = ['S.No', 'Faculty Name', 'Title', 'Roles', 'Start Date', 'End Date', 'Organized By'];
         const rows = revWithFacultyNames.map((rev, index) => [
@@ -257,8 +265,8 @@ function TableReview() {
                                 {selectedColumns.facultyName && <td>{rev.facultyName}</td>}
                                 {selectedColumns.title && <td>{rev.title}</td>}
                                 {selectedColumns.roles && <td>{(rev.roles!=undefined)?rev.roles.join(', '):''}</td>}
-                                {selectedColumns.startDate && <td>{rev.startDate}</td>}
-                                {selectedColumns.endDate && <td>{rev.endDate}</td>}
+                                {selectedColumns.startDate && <td>{formatDate(rev.startDate)}</td>}
+                                {selectedColumns.endDate && <td>{formatDate(rev.endDate)}</td>}
                                 {selectedColumns.organizedBy && <td>{rev.organizedBy}</td>}
                             </tr>
                         ))}

@@ -124,6 +124,13 @@ function TableSDP() {
     facultyName: facultyData[sdp.facultyId] || 'Unknown',
   }));
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = String(date.getFullYear()); // Get last two digits of the year
+    return `${day}/${month}/${year}`;
+  }
   const generateCSV = () => {
     const headers = ['S.No', 'Faculty Name', 'Title', 'Topic', 'Start Date', 'End Date', 'Organized By'];
     const rows = sdpWithFacultyNames.map((sdp, index) => [
@@ -141,6 +148,7 @@ function TableSDP() {
     FileSaver.saveAs(blob, 'sdp_records.csv');
   };
 
+  
   return (
     <div className="container mt-4">
         <div className="m-3 p-3 d-block text-center">
@@ -255,8 +263,8 @@ function TableSDP() {
                 {selectedColumns.facultyName && <td>{sdp.facultyName}</td>}
                 {selectedColumns.title && <td>{sdp.title}</td>}
                 {selectedColumns.topic && <td>{sdp.topic}</td>}
-                {selectedColumns.startDate && <td>{sdp.startDate}</td>}
-                {selectedColumns.endDate && <td>{sdp.endDate}</td>}
+                {selectedColumns.startDate && <td>{formatDate(sdp.startDate)}</td>}
+                {selectedColumns.endDate && <td>{formatDate(sdp.endDate)}</td>}
                 {selectedColumns.organizedBy && <td>{sdp.organizedBy}</td>}
               </tr>
             ))}
